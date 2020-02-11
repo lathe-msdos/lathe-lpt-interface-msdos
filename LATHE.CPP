@@ -69,8 +69,10 @@ for(int i=0; i<N_STATI; i++){
     indice = MOD-1;
     }
       }
-    printf("\n i = %d\n",i);
-printf("index =  %d \n",indice);
+printf("################");
+printf("# i = %d       # \n",i);
+printf("# index =  %d  #   \n",indice);
+printf("################");
      // printf("index =  %d  \n",indice);
   }
 }
@@ -121,7 +123,7 @@ void scanner(){
 clrscr();
 textbackground(233);
 textcolor(3);
-printf("\n ### Led Blinking! press any key to stop the scanning... ### \n");
+printf("\n ### Leds Blinking! press any key to stop the scanning... ### \n");
   while(!kbhit()){
 
   outportb(LPT1,127);
@@ -157,17 +159,16 @@ if(strcmp(command,"help")==0){
 //printf("\n###################################################");
 //printf("#");
 printf("\n#### Welcome to STPMTR-XY #####  v1.2 ###############\n");
-printf("\n# scanner = check if the stepper are linked then blinking\n");
-printf("\n# move = to let a stepper to move forward or back for k-steps\n The Stepper 1 is linked to the first 4 bit and the Stepper 2 is linked to the last 4 bit. \nConsidering D0 synched to the bit 1 \n");
-printf("\n# read = check the pin 11 of LPT is CLOSED or OPENED.\n");
-printf("\n# exit = to back to ms-dos\n");
-printf("\n# version = to check version and author");
-printf("\n# feedback = to check the last state, for ex. 0x0C\n");
-printf("\n# lpt1+2, lpt1+3 = check which address is synched\n");
-printf("\n# clearscreen = erase all the screen\n");
-    printf("\n# nemainfo = info about nema passes\n");
-
-printf("\n setup = set the motor [ NEMA17 / 28BYJ-48 ] \n");
+printf("\n# scanner = check if the stepper are linked then blinking");
+printf("\n# move = to let a stepper to move forward or back for k-steps\n The Stepper 1 is linked to the first 4 bit and the Stepper 2 is linked to the last 4 bit.");
+printf("\n# read = check the pin 11 of LPT is CLOSED or OPENED.");
+printf("\n# exit = to back to ms-dos");
+printf("\n# version = to check version and authors.");
+printf("\n# feedback = to check the last state.");
+printf("\n# lpt1+2, lpt1+3 = check which address is synched.");
+printf("\n# clearscreen = erase all the screen.");
+printf("\n# nemainfo = info about nema passes.");
+printf("\n setup = set the motor [ NEMA17 / 28BYJ-48 ].");
 }
 if (strcmp(command,"scanner")==0) {
 scanner();
@@ -227,7 +228,7 @@ printf("\n Set for Nema17\n");
    printf("\n STEPPER MODEL >>> 28BYJ-48 <<< [SELECTED] ");}
 
    else{ printf("\n Nothing changed \n"); }
-   
+
 
     }
 
@@ -275,4 +276,6 @@ textcolor(3);
 }
 
 }
+
+
 
