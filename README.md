@@ -20,3 +20,5 @@ If you want support us feel to free to contact us!
 
 That project is figured as open source right now.
 
+![lathe-lpt-interface-msdos](/structure.png)
+
