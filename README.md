@@ -1,4 +1,4 @@
-LATHE!
+### LATHE PROGRAM THROW LPT
 
 Hello,
 What you need is a computer with a native MS-DOS running, LPT socket and 2 Stepper motors.
