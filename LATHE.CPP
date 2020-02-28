@@ -54,7 +54,7 @@ if ((indice_motorino==2)&& (MOD==7)){
       stepper = nema17_1;
     }
     if( (indice_motorino==2)&& (MOD==4)){
-	stepper = nema17_2;
+    stepper = nema17_2;
     }
 stato = get_stato(indice_motorino);
 
@@ -69,17 +69,16 @@ for(int i=0; i<N_STATI; i++){
     indice = MOD-1;
     }
       }
-printf("################");
-printf("# i = %d       # \n",i);
-printf("# index =  %d  #   \n",indice);
-printf("################");
+//printf("################");
+printf("# index (related the engine state) =  %d  # direction = %d  \n",indice,direzione);
+//printf("################");
      // printf("index =  %d  \n",indice);
   }
 }
 
 indice = indice%MOD;
 
-printf("\n index =  %d \n",indice);
+//printf("\n index =  %d \n",indice);
 unsigned int mask;
 unsigned int newvalue = stepper[indice];
 if(indice_motorino == 1){
@@ -104,13 +103,20 @@ void move_k_times(int indice_motorino, int direzione, int k ){
   for(int x=0; x<k; x++){
 
   while(inportb(LPT1+1)==0xF8){
-  printf("\n### EMERGENCY BLOCK ON###\n");
-  delay(100);
+  textbackground(0);
+  textcolor(4);
+  printf("###########################\n");
+  printf("### EMERGENCY BLOCK ON###\n");
+  printf("###########################");
+  printf("#\n Stepper_Selected = %d, direction = %d ",indice_motorino,direzione);
+  printf("# ");
+  printf("#\n States_done = %d , Max = %d ",x,k);
+  delay(250);
   clrscr();
    }
 
 move(indice_motorino,direzione);
-  printf("Steps-done =  %d ,Stpr = %d, direction = %d    \n",k,indice_motorino,direzione);
+  printf("Steps_done =  %d ,Stpr = %d, direction = %d    \n",k,indice_motorino,direzione);
 
   }
 
@@ -127,9 +133,9 @@ printf("\n ### Leds Blinking! press any key to stop the scanning... ### \n");
   while(!kbhit()){
 
   outportb(LPT1,127);
-  delay(10);
+  delay(150);
   outportb(LPT1,0);
-  delay(10);
+  delay(150);
 
   }
 
@@ -138,10 +144,12 @@ printf("\n ### Leds Blinking! press any key to stop the scanning... ### \n");
 
 void main(){
 clrscr();
+textbackground(233);
+textcolor(3);
 clrscr();
 textbackground(233);
 textcolor(3);
-printf("\n Welcome to STPMTR-XY v1.2, type help to show the command's list\n \n");
+printf("\n Welcome to LATHE-XY v1.2, type help to show the command's list\n \n");
     if (MOD == 4) {  printf("\n  \n STEPPER MODEL >>> NEMA <<<  [SELECTED] ");
      printf("\n STEPPER MODEL >>> 28BYJ-48 <<< []");}
       if (MOD == 7) {
@@ -158,32 +166,40 @@ scanf("%s",command);
 if(strcmp(command,"help")==0){
 //printf("\n###################################################");
 //printf("#");
+clrscr();
+textbackground(233);
+textcolor(3);
 printf("\n#### Welcome to STPMTR-XY #####  v1.2 ###############\n");
 printf("\n# scanner = check if the stepper are linked then blinking");
 printf("\n# move = to let a stepper to move forward or back for k-steps\n The Stepper 1 is linked to the first 4 bit and the Stepper 2 is linked to the last 4 bit.");
-printf("\n# read = check the pin 11 of LPT is CLOSED or OPENED.");
+printf("\n# read = check the state");
 printf("\n# exit = to back to ms-dos");
-printf("\n# version = to check version and authors.");
+printf("-- version = to check version and authors.\n");
 printf("\n# feedback = to check the last state.");
-printf("\n# lpt1+2, lpt1+3 = check which address is synched.");
+printf("-- lpt1+2, lpt1+3 = check which address is synched.");
 printf("\n# clearscreen = erase all the screen.");
-printf("\n# nemainfo = info about nema passes.");
+printf(" -- nemainfo = info about nema passes.\n");
 printf("\n setup = set the motor [ NEMA17 / 28BYJ-48 ].");
 }
 if (strcmp(command,"scanner")==0) {
 scanner();
 }
 if(strcmp(command,"move")==0) {
-
+  if(inportb(LPT1+1) != 0xF8){printf("\n EMERGENCY BLOCK OFF! That is not safe.\n \n ");}
   printf("Which stepper X=1 or Y=2: ");
   scanf("%d",&stepper);
-  if(stepper>2){
-  printf("Out of range.");
+  if(stepper !=1 && stepper !=2){
+  printf("Out of Range.");
+  printf("\n Debug Line 185 to add more steppers; \n");
+  printf("Please, re launch the app again.");
   return; }
-  printf("\n Direction Clock-Foreward 1, Back -1: ");
+  printf("\n Direction Clock-Foreward = 1, Back = -1: ");
   scanf("%d",&direzione);
   printf("\n How many k-times");
-  printf("\n 1 Complete round is equal 1 complet step int the screw. For example [ 28BYJ-48] needs 2038 states to advance 1 pass in the screw. \n");
+
+  printf("\n NOTE: 1 Complete round is equal 1 complet step int the screw. For example [ 28BYJ-48] needs 2038 states to advance 1 pass in the screw. \n");
+   if(inportb(LPT1+1) != 0xF8){printf("\n EMERGENCY BLOCK OFF! That is not safe.\n \n ");}
+   if(inportb(LPT1+1) == 0xF8){printf("\n EMERGENCY BLOCK ON! That is safe :] \n \n ");}
   printf("\n k = ");
   scanf("%d",&times);
   move_k_times(stepper,direzione,times);
@@ -197,8 +213,11 @@ if(strcmp(command,"read")==0) {
   printf("Status: AVAILABLE\n");   }
   if (inportb(LPT1+1)==0xF8){
   printf("Status: EMERGENCY BLOCK ON\n");}
-  else{
+  if (inportb(LPT1+1)!=0xF8 && inportb(LPT1+1) != 0x78){
   printf("Status: UNKNOWN");}
+  if(MOD == 4) {
+  printf("The stepper setted up is = %d, NEMA",MOD);}
+  if(MOD == 7) { printf("The stepper setted up is = %d,28BYJ",MOD);}
 }
 
 if(strcmp(command,"nemainfo")==0){
@@ -218,17 +237,19 @@ printf("\n Set for Nema17\n");
     if (strcmp(command,"setup")==0) {
 
     printf("\n | NEMA = 4 | 28BYJ-48 = 7 | Nothing = another value |: ");
+   int val=7;
+   scanf("%d",&val);
 
-   scanf("%d",&MOD);
-
-   if (MOD == 4) {  printf("\n STEPPER MODEL >>> NEMA <<<  [SELECTED] ");
-  printf("\n STEPPER MODEL >>> 28BYJ-48 <<< []");}
-   if (MOD == 7) {
+   if (val == 4) {  printf("\n STEPPER MODEL >>> NEMA <<<  [SELECTED] ");
+  printf("\n STEPPER MODEL >>> 28BYJ-48 <<< []");
+  MOD=4;}
+   if (val == 7) {
    printf("`\n STEPPER MODEL >>> NEMA <<< []");
-   printf("\n STEPPER MODEL >>> 28BYJ-48 <<< [SELECTED] ");}
+   printf("\n STEPPER MODEL >>> 28BYJ-48 <<< [SELECTED] ");
+   MOD=7;}
 
    else{ printf("\n Nothing changed \n"); }
-
+   printf("\n MOD = %d",MOD);
 
     }
 
@@ -247,8 +268,8 @@ printf("Last state = 0x%X ",ultimostato);
 
 if (strcmp(command,"version")==0) {
 //clrscr();
-//printf("\nSTPMTR12 - Step Motor 1 and 2  version 1.2 \nBy Alberto Ragagnin \n Thanks to Riccardo Ragagnin and Antonio Ragagnin \nfor the useful help given to do that project.\n\n ");
-//printf("\nLast update: February 2020\n\n");
+printf("\nSTPMTR12 - Step Motor 1 and 2  version 1.2 \nBy Alberto Ragagnin \n Thanks to Riccardo Ragagnin and Antonio Ragagnin \nfor the useful help given to do that project.\n\n ");
+printf("\nLast update: February 2020\n\n");
 }
 if(strcmp(command,"lpt1+2")==0){
 //clrscr();
@@ -276,6 +297,5 @@ textcolor(3);
 }
 
 }
-
 
 
