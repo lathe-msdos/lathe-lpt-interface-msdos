@@ -22,3 +22,10 @@ That project is figured as open source right now.
 
 ![lathe-lpt-interface-msdos](/structure.png)
 
+
+# The Project for 2 axis
+
+At the moment we can move the 2 steppers
+and select between 2 motors and advance/backward in the stepper screw.
+
+![lathe-lpt-interface-msdos](/linked.png)
