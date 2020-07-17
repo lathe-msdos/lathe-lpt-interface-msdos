@@ -1,6 +1,8 @@
 # LATHE PROGRAM THROW LPT
 
 Hello,
+***WE ARE SHARING ONLY THE BIN FILE! ***
+If you are interested in the source code please contact us.
 What you need is a computer with a native MS-DOS running, LPT socket and 2 Stepper motors.
 
 What is alread done and working :
