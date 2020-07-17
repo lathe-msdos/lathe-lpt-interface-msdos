@@ -20,7 +20,7 @@ If you want support us feel to free to contact us!
 
 That project is figured as open source right now.
 
-![lathe-lpt-interface-msdos](/structure.png)
+![lathe-lpt-interface-msdos](/structure2.png)
 
 
 # The Project for 2 axis
