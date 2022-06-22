@@ -1,7 +1,7 @@
 # LATHE PROGRAM THROW LPT
 
 Hello,
-*** SOURCE CODE RELASED ***
+*** SOURCE CODE RELEASED ***
 
 
 What is alread done and working :
