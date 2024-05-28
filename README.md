@@ -1,25 +1,19 @@
 # LATHE PROGRAM THROW LPT
+Hello, SOURCE CODE RELEASED
 
-Hello,
-*** SOURCE CODE RELEASED ***
+Current Features:
+The program supports both NEMA and 28BYJ-48 stepper motors. NEMA operates with 4 states, while 28BYJ-48 uses 7 states. Currently, the program allows the two stepper motors (X and Y axes) to move backwards or forwards for a specified number of steps. It also tracks the progress of the screw (each complete rotation advances the screw by one pitch). Additionally, the process can be interrupted at any time using an emergency stop button that connects pin 11 of the LPT port to the ground.
+
+Future Enhancements:
+We are working on adding graphical feedback for simulation before running the program. We plan to include more details such as the RPM of the drill (which spins the screws) and the program will also store the dimensions and volume of the screws (are they cylindrical?).
+
+Thank you for reading! If you want to support us, feel free to contact us!
+
+This project is now open source.
+
+This revision aims to clarify the technical descriptions and improve overall readability.
 
 
-What is alread done and working :
-That program support NEMA and  28BYJ-48  stepper motor.
-NEMA works with 4 states meanwhile  28BYJ-48  with 7 states.
-The program right now allow to order the 2 step mottors (X and Y) to move back/forward for how many steps.
-Then can you figure out to progress in the screw (each complete spin = +1 pass in the screw).
-Also it is possible interrupt the process at any time with an emergency real button that connect the pin11 of the LPT to the ground.
-
-What we would add in future:
-Working in progress in a graphic feedback for a simulation before launch the program
-and put more details like the RPM of the drill (that spin the pics) and basically the program
-should store in memory the dimension of volume of the pics (is it a cilinder? ).
-
-Thanks for the reading
-If you want support us feel to free to contact us!
-
-That project is figured as open source right now.
 
 ![lathe-lpt-interface-msdos](/structure2.png)
 
