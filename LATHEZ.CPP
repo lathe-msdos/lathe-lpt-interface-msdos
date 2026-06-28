@@ -136,31 +136,39 @@ void move_one(int motor, int dir) {
    ========================================================= */
 void move_k(int motor, int dir, long k) {
     long done;
+    int flag = 1;
     clrscr();
     textbackground(0);
     textcolor(14);
     printf("Moving %s | %s | %ld steps\n",
-           motor==1 ? "Z carriage" : "X cross slide",
-           dir==1   ? "CW" : "CCW", k);
+	   motor==1 ? "Z carriage" : "X cross slide",
+	   dir==1   ? "CW" : "CCW", k);
     printf("Press any key to abort\n\n");
     textcolor(7);
 
     for (done = 0; done < k; done++) {
-        /* --- E-STOP: blocks here, coils off, resumes on release --- */
-        while (inportb(LPT1 + 1) == 0xF8) {
-            outportb(LPT1, 0);   /* de-energise immediately */
-            textcolor(12);
-            printf("\r### EMERGENCY BLOCK ON — release to resume ###");
-            textcolor(7);
-            delay(100);
-        }
+	/* --- E-STOP: blocks here, coils off, resumes on release --- */
+	while (inportb(LPT1 + 1) == 0x00) {
+	    outportb(LPT1, 0);   /* de-energise immediately */
+	    textcolor(4);
+	    printf("\r### EMERGENCY BLOCK ON  release to resume ###");
+	    textcolor(4);
+	    delay(100);
+	    clrscr();
+	    flag = 0;
+	}
+       if (flag == 0){
+       textcolor(2);
+       printf("\n BLOCK OFF, wait 10 seconds");
+       delay(10000);
+       flag = 1;
+       }
+	/* --- keyboard abort --- */
+	if (kbhit()) { getch(); break; }
 
-        /* --- keyboard abort --- */
-        if (kbhit()) { getch(); break; }
-
-        move_one(motor, dir);
-        if (done % 20 == 0)
-            printf("\rStep %ld/%ld   Z=%-8ld X=%-8ld", done+1, k, pos_z, pos_x);
+	move_one(motor, dir);
+	if (done % 20 == 0)
+	    printf("\rStep %ld/%ld   Z=%-8ld X=%-8ld", done+1, k, pos_z, pos_x);
     }
     printf("\n\nDone (%ld steps).  Z=%ld  X=%ld\n", done, pos_z, pos_x);
 }
